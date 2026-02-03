@@ -6,7 +6,7 @@ import { setShrinkCallback } from './core/clock.js';
 import { initCanvas, showCanvas, canvas, ctx } from './render/canvas.js';
 import { initKeyboard } from './input/keyboard.js';
 import { initMouse } from './input/mouse.js';
-import { initChatInput, showChatInput, hideChatInput } from './input/chat.js';
+import { initChatInput } from './input/chat.js';
 import { initLobby, hideLobby, showLobby } from './ui/lobby.js';
 import { showEndScreen } from './ui/endscreen.js';
 import { drawToasts, showToast } from './ui/toast.js';
@@ -20,7 +20,7 @@ import { initNet, destroyNet } from './net/init.js';
 import { syncLocalPlayer, observePlayers } from './net/players.js';
 import { initChat, sendChat } from './net/chat.js';
 import { syncScore } from './net/leaderboard.js';
-import { getNetStatus } from './net/status.js';
+import { getNetStatus, setupStatusEvents, onStatusChange } from './net/status.js';
 import { getIdentity } from './net/identity.js';
 import { playSfx } from './audio/sfx.js';
 import { startMusic } from './audio/music.js';
@@ -55,31 +55,44 @@ function gameRender(dt) {
   drawToasts(ctx, canvas.width);
 }
 
-function startGame(name, roomCode) {
+async function startGame(name, roomCode) {
   Object.assign(state, createState());
   state.player.name = name;
   state.roomCode = roomCode;
   state.seed = codeToSeed(roomCode);
-  getIdentity().then(id => {
-    state.player.id = id;
-    state.player.color = '#' + id.slice(1, 4).split('').map(
-      c => c.charCodeAt(0).toString(16).padStart(2, '0')
-    ).join('').slice(0, 6).padEnd(6, 'f');
-  });
+  // Await identity so it's ready before any net sync
+  const id = await getIdentity();
+  state.player.id = id;
+  state.player.color = '#' + id.slice(1, 4).split('').map(
+    c => c.charCodeAt(0).toString(16).padStart(2, '0')
+  ).join('').slice(0, 6).padEnd(6, 'f');
   const rng = createRng(state.seed);
   state.blocks = generateArena(rng);
   startRound(state);
   hideLobby();
   showCanvas();
   try {
-    const { doc, provider } = initNet(roomCode);
+    initNet(roomCode);
+    setupStatusEvents();
+    onStatusChange(evt => {
+      if (evt.type === 'peers') {
+        const count = evt.peers ? evt.peers.size || 0 : 0;
+        if (count > 0) showToast(`${count} player${count > 1 ? 's' : ''} online`, '#00ff88');
+      }
+    });
     observePlayers(state);
     initChat(msg => {
+      // Skip echo of own messages (we add them locally already)
+      if (msg.sender === state.player.name) {
+        const age = Date.now() - msg.ts;
+        if (age < 2000) return;
+      }
       state.chatMessages.push(msg);
     });
+    state.connected = true;
     showToast('CONNECTED - click matching patterns!', '#00ff88');
   } catch (e) {
-    showToast('Offline mode', '#e94560');
+    showToast('Offline mode - playing solo', '#e94560');
   }
   resetHintTimer();
   startMusic();

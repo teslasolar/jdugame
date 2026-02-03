@@ -1,8 +1,10 @@
-import { getDoc, getProvider } from './init.js';
+import { getDoc } from './init.js';
+
+const STALE_MS = 10000;
 
 export function syncLocalPlayer(state) {
   const doc = getDoc();
-  if (!doc) return;
+  if (!doc || !state.player.id) return;
   const map = doc.getMap('players');
   map.set(state.player.id, {
     name: state.player.name,
@@ -17,17 +19,16 @@ export function observePlayers(state) {
   const doc = getDoc();
   if (!doc) return;
   const map = doc.getMap('players');
-  map.observe(() => {
-    const remote = {};
-    map.forEach((val, key) => {
-      if (key !== state.player.id) remote[key] = val;
-    });
-    state.remotePlayers = remote;
-  });
+  map.observe(() => updateRemote(state, map));
 }
 
-export function getPeerCount() {
-  const prov = getProvider();
-  if (!prov) return 0;
-  return prov.connected ? Math.max(1, Object.keys(prov.room?.peerId ? {} : {}).length) : 0;
+function updateRemote(state, map) {
+  const now = Date.now();
+  const remote = {};
+  map.forEach((val, key) => {
+    if (key === state.player.id) return;
+    if (now - val.ts > STALE_MS) return;
+    remote[key] = val;
+  });
+  state.remotePlayers = remote;
 }
