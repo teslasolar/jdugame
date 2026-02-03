@@ -10,7 +10,7 @@ import { initChatInput, showChatInput, hideChatInput } from './input/chat.js';
 import { initLobby, hideLobby, showLobby } from './ui/lobby.js';
 import { showEndScreen } from './ui/endscreen.js';
 import { drawToasts, showToast } from './ui/toast.js';
-import { showControlHints } from './ui/controls.js';
+import { showControlHints, resetHintTimer } from './ui/controls.js';
 import { gamepadActive } from './input/gamepad.js';
 import { renderFrame } from './render/frame.js';
 import { update } from './game/update.js';
@@ -77,10 +77,11 @@ function startGame(name, roomCode) {
     initChat(msg => {
       state.chatMessages.push(msg);
     });
-    showToast(`Room: ${roomCode}`, '#00ff88');
+    showToast('CONNECTED - click matching patterns!', '#00ff88');
   } catch (e) {
     showToast('Offline mode', '#e94560');
   }
+  resetHintTimer();
   startMusic();
 }
 

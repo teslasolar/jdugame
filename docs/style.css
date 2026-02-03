@@ -8,13 +8,34 @@ body {
 #lobby {
   display:flex; flex-direction:column;
   align-items:center; justify-content:center;
-  height:100vh; gap:12px;
+  height:100vh; gap:14px; padding:20px;
 }
 #lobby h1 {
   font-size:2.5rem; color:#00ff88;
   text-shadow:0 0 20px #00ff8855;
 }
 #lobby .sub { color:#888; font-size:0.9rem; }
+.how-to-play {
+  background:#111; border:1px solid #222;
+  border-radius:8px; padding:16px 20px;
+  max-width:420px; width:100%; margin:4px 0;
+}
+.how-to-play h2 {
+  font-size:0.85rem; color:#00ff88;
+  margin-bottom:10px; letter-spacing:2px;
+}
+.steps { display:flex; flex-direction:column; gap:8px; }
+.step {
+  display:flex; align-items:flex-start; gap:10px;
+  font-size:0.8rem; color:#bbb; line-height:1.4;
+}
+.step b { color:#eee; }
+.step .num {
+  background:#00ff8822; color:#00ff88;
+  width:20px; height:20px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.7rem; font-weight:bold; flex-shrink:0;
+}
 #lobby input, #lobby button {
   font-family:inherit; font-size:1rem;
   padding:10px 16px; border:1px solid #333;
@@ -25,12 +46,10 @@ body {
 #lobby button {
   background:#00ff88; color:#0a0a1a;
   border:none; cursor:pointer; font-weight:bold;
+  font-size:1.1rem; padding:12px 16px;
 }
 #lobby button:hover { background:#00cc6a; }
-.room-row { display:flex; gap:8px; }
-.room-row input { width:130px; text-transform:uppercase; }
-.room-row button { width:82px; }
-.hint { color:#555; font-size:0.75rem; margin-top:8px; }
+.hint { color:#555; font-size:0.75rem; margin-top:4px; }
 #chat-input {
   position:fixed; bottom:10px; left:50%;
   transform:translateX(-50%); width:400px; max-width:90vw;

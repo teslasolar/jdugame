@@ -1,38 +1,21 @@
 const lobbyEl = document.getElementById('lobby');
 const nameEl = document.getElementById('player-name');
-const codeEl = document.getElementById('room-code');
-const joinBtn = document.getElementById('btn-join');
-const createBtn = document.getElementById('btn-create');
+const playBtn = document.getElementById('btn-play');
 const hintEl = document.getElementById('controls-hint');
 
+const GLOBAL_ROOM = 'GLOBAL';
+
 export function initLobby(onJoin) {
-  const go = (code) => {
+  playBtn.addEventListener('click', () => {
     const name = nameEl.value.trim() || 'Anon';
-    onJoin(name, code.toUpperCase());
-  };
-  joinBtn.addEventListener('click', () => {
-    const c = codeEl.value.trim().toUpperCase();
-    if (c.length >= 2) go(c);
+    onJoin(name, GLOBAL_ROOM);
   });
-  createBtn.addEventListener('click', () => {
-    const code = randomCode();
-    codeEl.value = code;
-    go(code);
+  nameEl.addEventListener('keydown', e => {
+    if (e.code === 'Enter') playBtn.click();
   });
-  codeEl.addEventListener('keydown', e => {
-    if (e.code === 'Enter') joinBtn.click();
-  });
-  hintEl.textContent = navigator.getGamepads
-    ? 'Gamepad or Keyboard supported'
-    : 'Keyboard + Mouse';
+  const gp = navigator.getGamepads ? 'Gamepad or Keyboard' : 'Keyboard + Mouse';
+  hintEl.textContent = gp;
 }
 
 export function hideLobby() { lobbyEl.style.display = 'none'; }
 export function showLobby() { lobbyEl.style.display = 'flex'; }
-
-function randomCode() {
-  const chars = 'ABCDEFGHJKLMNPRSTUVWXYZ';
-  let c = '';
-  for (let i = 0; i < 4; i++) c += chars[Math.floor(Math.random() * chars.length)];
-  return c;
-}

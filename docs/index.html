@@ -9,13 +9,38 @@
 <body>
   <div id="lobby">
     <h1>COMPRESS ARENA</h1>
-    <p class="sub">Find patterns. Compress data. Blast noise.</p>
-    <input id="player-name" type="text" placeholder="Your name" maxlength="12">
-    <div class="room-row">
-      <input id="room-code" type="text" placeholder="Room code" maxlength="4">
-      <button id="btn-join">JOIN</button>
+    <p class="sub">A multiplayer game about data compression</p>
+    <div class="how-to-play">
+      <h2>HOW TO PLAY</h2>
+      <div class="steps">
+        <div class="step">
+          <span class="num">1</span>
+          <span><b>MOVE</b> around the arena and find colored data blocks</span>
+        </div>
+        <div class="step">
+          <span class="num">2</span>
+          <span><b>CLICK</b> matching patterns (same text like AABB + AABB)</span>
+        </div>
+        <div class="step">
+          <span class="num">3</span>
+          <span>Matching 2+ blocks <b>compresses</b> them for points</span>
+        </div>
+        <div class="step">
+          <span class="num">4</span>
+          <span>Rare patterns = more points. Known patterns = bonus</span>
+        </div>
+        <div class="step">
+          <span class="num">5</span>
+          <span>Full energy bar? <b>BLAST</b> noise at others to disrupt them</span>
+        </div>
+        <div class="step">
+          <span class="num">6</span>
+          <span>Arena <b>shrinks</b> every 60s. Survive and score the most!</span>
+        </div>
+      </div>
     </div>
-    <button id="btn-create">CREATE ROOM</button>
+    <input id="player-name" type="text" placeholder="Enter your name" maxlength="12">
+    <button id="btn-play">PLAY</button>
     <p class="hint" id="controls-hint"></p>
   </div>
   <canvas id="game" style="display:none"></canvas>
