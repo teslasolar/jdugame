@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+  <title>COMPRESS ARENA</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="lobby">
+    <h1>COMPRESS ARENA</h1>
+    <p class="sub">Find patterns. Compress data. Blast noise.</p>
+    <input id="player-name" type="text" placeholder="Your name" maxlength="12">
+    <div class="room-row">
+      <input id="room-code" type="text" placeholder="Room code" maxlength="4">
+      <button id="btn-join">JOIN</button>
+    </div>
+    <button id="btn-create">CREATE ROOM</button>
+    <p class="hint" id="controls-hint"></p>
+  </div>
+  <canvas id="game" style="display:none"></canvas>
+  <input id="chat-input" type="text" placeholder="Type message..."
+    maxlength="140" style="display:none">
+  <script src="bundle.js"></script>
+</body>
+</html>

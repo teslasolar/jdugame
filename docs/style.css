@@ -1,0 +1,41 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background:#0a0a1a; color:#eee;
+  font-family:'Courier New',monospace;
+  overflow:hidden; height:100vh; width:100vw;
+}
+#game { display:block; width:100vw; height:100vh; }
+#lobby {
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  height:100vh; gap:12px;
+}
+#lobby h1 {
+  font-size:2.5rem; color:#00ff88;
+  text-shadow:0 0 20px #00ff8855;
+}
+#lobby .sub { color:#888; font-size:0.9rem; }
+#lobby input, #lobby button {
+  font-family:inherit; font-size:1rem;
+  padding:10px 16px; border:1px solid #333;
+  background:#111; color:#eee; border-radius:6px;
+  outline:none; text-align:center; width:220px;
+}
+#lobby input:focus { border-color:#00ff88; }
+#lobby button {
+  background:#00ff88; color:#0a0a1a;
+  border:none; cursor:pointer; font-weight:bold;
+}
+#lobby button:hover { background:#00cc6a; }
+.room-row { display:flex; gap:8px; }
+.room-row input { width:130px; text-transform:uppercase; }
+.room-row button { width:82px; }
+.hint { color:#555; font-size:0.75rem; margin-top:8px; }
+#chat-input {
+  position:fixed; bottom:10px; left:50%;
+  transform:translateX(-50%); width:400px; max-width:90vw;
+  padding:8px 12px; background:#1a1a2ecc;
+  border:1px solid #0f3460; color:#eee;
+  font-family:inherit; font-size:0.9rem;
+  border-radius:6px; outline:none; z-index:100;
+}
