@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "serve": "npx serve docs"
+    "serve": "npx serve docs",
+    "test": "node test/run.js"
   },
   "devDependencies": {
     "rollup": "^4.0.0",
